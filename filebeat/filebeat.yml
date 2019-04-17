@@ -1,0 +1,20 @@
+filebeat.prospectors:
+- type: log
+  enabled: true
+  paths:
+    - /var/log/test.log
+#  fields_under_root: true
+#  fields:
+#     sender: wafagent
+
+output.kafka:
+  enabled: true
+  hosts: ["192.168.5.252:9092"]
+
+  topic: test
+  partition.round_robin:
+    reachable_only: false
+
+  required_acks: 1
+  codec.json:
+    pretty: true

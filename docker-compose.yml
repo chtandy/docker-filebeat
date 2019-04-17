@@ -1,0 +1,21 @@
+version: '2.2'
+services:
+  logstash:
+    build:
+      context: filebeat/
+      args:
+        FB_VERSION: $FB_VERSION
+    container_name: filebeat
+    hostname: filebeat
+    restart: unless-stopped
+    environment:
+      - UID=1000
+      - GID=1000
+    volumes:
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - ${LOG_PATH}:/var/log  ## 視情況修改來源log位置
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "15"
