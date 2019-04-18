@@ -1,0 +1,16 @@
+filebeat.prospectors:
+- type: log
+  enabled: true
+  paths:
+    - /usr/local/nginx/logs/access.log
+  json.keys_under_root: true
+  json.add_error_key: true
+#processors:
+#- add_cloud_metadata: ~
+#setup.template.settings:
+#  index.number_of_shards: 3
+
+
+
+output.logstash:
+  hosts: ["10.140.0.19:5000"]
