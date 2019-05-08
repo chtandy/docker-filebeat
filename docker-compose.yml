@@ -13,6 +13,7 @@ services:
       - GID=1000
     volumes:
       - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      - /var/run/docker.sock:/var/run/docker.sock
       - ${LOG_PATH}:/var/log  ## 視情況修改來源log位置
     logging:
       driver: "json-file"
