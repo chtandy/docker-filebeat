@@ -9,6 +9,9 @@ services:
     hostname: filebeat
     restart: unless-stopped
     user: root
+    #environment:
+    #  - UID=1000
+    #  - GID=1000
     volumes:
       - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
       # 接收一般log 取消註解
