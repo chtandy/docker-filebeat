@@ -1,6 +1,6 @@
-version: '2.2'
+version: '2.2'                                                                                                           
 services:
-  logstash:
+  filebeat:
     build:
       context: filebeat/
       args:
@@ -8,13 +8,14 @@ services:
     container_name: filebeat
     hostname: filebeat
     restart: unless-stopped
-    environment:
-      - UID=1000
-      - GID=1000
+    user: root
     volumes:
       - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ${LOG_PATH}:/var/log  ## 視情況修改來源log位置
+      # 接收一般log 取消註解
+      - ${LOG_PATH}:/var/log
+      # 要收docker log時，取消註解
+      #- /var/lib/docker/containers:/var/lib/docker/containers:ro
+      #- /var/run/docker.sock:/var/run/docker.sock:ro
     logging:
       driver: "json-file"
       options:
