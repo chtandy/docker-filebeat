@@ -1,4 +1,4 @@
-# docker-filebeat
+# docker-filebeat 接收docker用
 docker-filebeat
 ```
 chown root filebeat/filebeat.yml
@@ -45,4 +45,34 @@ output.kafka:
   required_acks: 1
   codec.json:
     pretty: true
+```
+
+- 其他版本
+```
+version: '2.2'                                                                                                           
+services:
+  logstash:
+    build:
+      context: filebeat/
+      args:
+        FB_VERSION: $FB_VERSION
+    container_name: filebeat
+    hostname: filebeat
+    restart: unless-stopped
+    user: root
+    #environment:
+    #  - UID=1000
+    #  - GID=1000
+    volumes:
+      - ./filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml:ro
+      # 接收一般log 取消註解
+      - ${LOG_PATH}:/var/log
+      # 要收docker log時，取消註解
+      #- /var/lib/docker/containers:/var/lib/docker/containers:ro
+      #- /var/run/docker.sock:/var/run/docker.sock:ro
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "15"
 ```
